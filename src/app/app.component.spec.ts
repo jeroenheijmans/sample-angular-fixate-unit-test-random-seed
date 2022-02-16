@@ -12,7 +12,7 @@ describe('AppComponent', () => {
       console.log(`${color}[${spec.status.toLocaleUpperCase()}] [State = ${simulateProblematicState}] ${spec.fullName}\x1b[0m`);
     },
     jasmineStarted(suiteInfo) {
-      console.log(`STARTING SUITE: Randomizing = ${suiteInfo.order.random}, with seed ${suiteInfo.order.seed}`);
+      console.log(`STARTING SUITE: Randomizing = ${suiteInfo.order?.random}, with seed ${suiteInfo.order?.seed}`);
     }
   });
 
