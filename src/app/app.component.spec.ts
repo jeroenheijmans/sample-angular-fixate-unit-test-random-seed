@@ -2,7 +2,23 @@ import { TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
 
 describe('AppComponent', () => {
+  let simulateProblematicState = 0; // simulate state that affects test runs
+
+  jasmine.getEnv().addReporter({
+    specDone(spec) {
+      console.log(`[${spec.status.toLocaleUpperCase()}] [State = ${simulateProblematicState}] ${spec.fullName}`);
+    },
+  });
+
+  beforeAll(async () => {
+    console.log();
+    console.log();
+    console.log('--vvvvv-----------------------------------------------------------------------------------------------------------------------------------------');
+  })
+
   beforeEach(async () => {
+    simulateProblematicState++;
+
     await TestBed.configureTestingModule({
       declarations: [
         AppComponent
@@ -10,22 +26,25 @@ describe('AppComponent', () => {
     }).compileComponents();
   });
 
-  it('should create the app', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app).toBeTruthy();
+  afterAll(async () => {
+    console.log('--^^^^^-----------------------------------------------------------------------------------------------------------------------------------------');
+    console.log();
+    console.log();
   });
 
-  it(`should have as title 'sample-angular-fixate-unit-test-random-seed'`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app.title).toEqual('sample-angular-fixate-unit-test-random-seed');
+  it('(A) should always fail this test', () => {
+    expect(true).toBeFalse();
   });
 
-  it('should render title', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('.content span')?.textContent).toContain('sample-angular-fixate-unit-test-random-seed app is running!');
+  it('(B) should always pass this test', () => {
+    expect(true).toBeTrue();
+  });
+
+  it('(C) should fail this test IF it is run first', () => {
+    expect(simulateProblematicState).not.toBe(1);
+  });
+
+  it('(D) should fail this test UNLESS it is run first', () => {
+    expect(simulateProblematicState).toBe(1);
   });
 });
