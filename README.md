@@ -2,6 +2,8 @@
 
 A small sample of how Angular and Karma + Jasmine handle randomization.
 
+> ⚠ Warning: This sample repository does not receive regular (security) updates.
+
 ## Using the sample
 
 The main details are in `karma.conf.js` and in `app.component.spec.ts`.
