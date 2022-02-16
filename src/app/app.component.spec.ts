@@ -6,13 +6,17 @@ describe('AppComponent', () => {
 
   jasmine.getEnv().addReporter({
     specDone(spec) {
-      console.log(`[${spec.status.toLocaleUpperCase()}] [State = ${simulateProblematicState}] ${spec.fullName}`);
+      const color = spec.status === 'passed'
+        ? '\x1b[32m' // green
+        : '\x1b[31m' // red;
+      console.log(`${color}[${spec.status.toLocaleUpperCase()}] [State = ${simulateProblematicState}] ${spec.fullName}\x1b[0m`);
     },
+    jasmineStarted(suiteInfo) {
+      console.log(`STARTING SUITE: Randomizing = ${suiteInfo.order.random}, with seed ${suiteInfo.order.seed}`);
+    }
   });
 
   beforeAll(async () => {
-    console.log();
-    console.log();
     console.log('--vvvvv-----------------------------------------------------------------------------------------------------------------------------------------');
   })
 
@@ -28,23 +32,21 @@ describe('AppComponent', () => {
 
   afterAll(async () => {
     console.log('--^^^^^-----------------------------------------------------------------------------------------------------------------------------------------');
-    console.log();
-    console.log();
   });
 
-  it('(A) should always fail this test', () => {
-    expect(true).toBeFalse();
-  });
-
-  it('(B) should always pass this test', () => {
+  it('(A) should always pass this test, part 1', () => {
     expect(true).toBeTrue();
   });
 
-  it('(C) should fail this test IF it is run first', () => {
+  it('(B) should fail this test IF it is run first', () => {
     expect(simulateProblematicState).not.toBe(1);
   });
 
-  it('(D) should fail this test UNLESS it is run first', () => {
+  it('(C) should fail this test UNLESS it is run first', () => {
     expect(simulateProblematicState).toBe(1);
+  });
+
+  it('(D) should always pass this test, part 2', () => {
+    expect(true).toBeTrue();
   });
 });
